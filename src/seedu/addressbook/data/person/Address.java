@@ -11,9 +11,19 @@ public class Address {
     public static final String EXAMPLE = "123, some street";
     public static final String MESSAGE_ADDRESS_CONSTRAINTS = "Person addresses can be in any format";
     public static final String ADDRESS_VALIDATION_REGEX = ".+";
+    private static final String ADDRESS_PARTS_SEPARATOR = ", ";
 
     public final String value;
     private boolean isPrivate;
+
+    /* A String array is used to store address of a single person.
+     * The constants given below are the indexes for the different parts of the address
+     * For example, the block of the address is stored as the 0th element in the array.
+     */
+    private final int ADDRESS_BLOCK_INDEX = 0;
+    private final int ADDRESS_STREET_INDEX = 1;
+    private final int ADDRESS_UNIT_INDEX = 2;
+    private final int ADDRESS_POSTAL_CODE_INDEX = 3;
 
     /**
      * Validates given address.
@@ -27,6 +37,7 @@ public class Address {
             throw new IllegalValueException(MESSAGE_ADDRESS_CONSTRAINTS);
         }
         this.value = trimmedAddress;
+        String[] trimmedAddressParts = trimmedAddress.split(ADDRESS_PARTS_SEPARATOR);
     }
 
     /**
