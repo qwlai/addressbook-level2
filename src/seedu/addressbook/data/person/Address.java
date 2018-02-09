@@ -1,5 +1,9 @@
 package seedu.addressbook.data.person;
 
+import seedu.addressbook.data.address.Block;
+import seedu.addressbook.data.address.PostalCode;
+import seedu.addressbook.data.address.Street;
+import seedu.addressbook.data.address.Unit;
 import seedu.addressbook.data.exception.IllegalValueException;
 
 /**
@@ -8,13 +12,17 @@ import seedu.addressbook.data.exception.IllegalValueException;
  */
 public class Address {
 
-    public static final String EXAMPLE = "123, some street";
+    public static final String EXAMPLE = "123, some street, some unit, some postal code";
     public static final String MESSAGE_ADDRESS_CONSTRAINTS = "Person addresses can be in any format";
     public static final String ADDRESS_VALIDATION_REGEX = ".+";
     private static final String ADDRESS_PARTS_SEPARATOR = ", ";
 
     public final String value;
     private boolean isPrivate;
+    private Block block;
+    private Street street;
+    private Unit unit;
+    private PostalCode postalCode;
 
     /* A String array is used to store address of a single person.
      * The constants given below are the indexes for the different parts of the address
@@ -37,7 +45,19 @@ public class Address {
             throw new IllegalValueException(MESSAGE_ADDRESS_CONSTRAINTS);
         }
         this.value = trimmedAddress;
+        processAddress(trimmedAddress);
+    }
+
+    private void processAddress(String trimmedAddress) {
         String[] trimmedAddressParts = trimmedAddress.split(ADDRESS_PARTS_SEPARATOR);
+        block = new Block(trimmedAddressParts[ADDRESS_BLOCK_INDEX]);
+        street = new Street(trimmedAddressParts[ADDRESS_STREET_INDEX]);
+        unit = new Unit(trimmedAddressParts[ADDRESS_UNIT_INDEX]);
+        postalCode = new PostalCode(trimmedAddressParts[ADDRESS_POSTAL_CODE_INDEX]);
+    }
+
+    private String getAddress() {
+        return block.getBlock() + ", " + street.getStreet() + ", " + unit.getUnit() + ", " + postalCode.getPostalCode();
     }
 
     /**
