@@ -73,6 +73,13 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     /**
+     * Sorts all persons in the address book by name in alphabetical order.
+     */
+    public void sortByName() {
+        internalList.sort((person1, person2) -> person1.getName().toString().compareToIgnoreCase(person2.getName().toString()));
+    }
+
+    /**
      * Returns an unmodifiable java List view with elements cast as immutable {@link ReadOnlyPerson}s.
      * For use with other methods/libraries.
      * Any changes to the internal list/elements are immediately visible in the returned list.
@@ -80,7 +87,6 @@ public class UniquePersonList implements Iterable<Person> {
     public List<ReadOnlyPerson> immutableListView() {
         return Collections.unmodifiableList(internalList);
     }
-
 
     /**
      * Checks if the list contains an equivalent person as the given argument.
